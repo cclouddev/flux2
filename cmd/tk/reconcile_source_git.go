@@ -68,10 +68,10 @@ func syncSourceGitCmdRun(cmd *cobra.Command, args []string) error {
 
 	if gitRepository.Annotations == nil {
 		gitRepository.Annotations = map[string]string{
-			sourcev1.ReconcileAtAnnotation: time.Now().String(),
+			sourcev1.ReconcileAtAnnotation: time.Now().Format(time.RFC3339Nano),
 		}
 	} else {
-		gitRepository.Annotations[sourcev1.ReconcileAtAnnotation] = time.Now().String()
+		gitRepository.Annotations[sourcev1.ReconcileAtAnnotation] = time.Now().Format(time.RFC3339Nano)
 	}
 	if err := kubeClient.Update(ctx, &gitRepository); err != nil {
 		return err

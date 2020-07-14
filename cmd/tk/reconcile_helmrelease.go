@@ -22,8 +22,10 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/wait"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	helmv2 "github.com/fluxcd/helm-controller/api/v2alpha1"
 )
@@ -100,7 +102,7 @@ func reconcileHrCmdRun(cmd *cobra.Command, args []string) error {
 
 	logger.Waitingf("waiting for HelmRelease reconciliation")
 	if err := wait.PollImmediate(pollInterval, timeout,
-		isKustomizationReady(ctx, kubeClient, name, namespace)); err != nil {
+		isHelmReleaseReady(ctx, kubeClient, name, namespace)); err != nil {
 		return err
 	}
 
@@ -117,4 +119,30 @@ func reconcileHrCmdRun(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("HelmRelease reconciliation failed")
 	}
 	return nil
+}
+
+func isHelmReleaseReady(ctx context.Context, kubeClient client.Client, name, namespace string) wait.ConditionFunc {
+	return func() (bool, error) {
+		var helmRelease helmv2.HelmRelease
+		namespacedName := types.NamespacedName{
+			Namespace: namespace,
+			Name:      name,
+		}
+
+		err := kubeClient.Get(ctx, namespacedName, &helmRelease)
+		if err != nil {
+			return false, err
+		}
+
+		for _, condition := range helmRelease.Status.Conditions {
+			if condition.Type == helmv2.ReadyCondition {
+				if condition.Status == corev1.ConditionTrue {
+					return true, nil
+				} else if condition.Status == corev1.ConditionFalse {
+					return false, fmt.Errorf(condition.Message)
+				}
+			}
+		}
+		return false, nil
+	}
 }

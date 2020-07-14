@@ -24,5 +24,6 @@ The suspend sub-commands suspend the reconciliation of a resource.
 ### SEE ALSO
 
 * [tk](tk.md)	 - Command line utility for assembling Kubernetes CD pipelines
+* [tk suspend helmrelease](tk_suspend_helmrelease.md)	 - Suspend reconciliation of HelmRelease
 * [tk suspend kustomization](tk_suspend_kustomization.md)	 - Suspend reconciliation of Kustomization
 

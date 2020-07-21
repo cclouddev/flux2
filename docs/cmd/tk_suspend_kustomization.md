@@ -10,6 +10,14 @@ The suspend command disables the reconciliation of a Kustomization resource.
 tk suspend kustomization [name] [flags]
 ```
 
+### Examples
+
+```
+  # Suspend reconciliation for an existing Kustomization
+  tk suspend ks podinfo
+
+```
+
 ### Options
 
 ```

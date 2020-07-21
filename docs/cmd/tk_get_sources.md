@@ -25,4 +25,5 @@ The get source sub-commands print the statuses of the sources.
 
 * [tk get](tk_get.md)	 - Get sources and resources
 * [tk get sources git](tk_get_sources_git.md)	 - Get GitRepository source statuses
+* [tk get sources helm](tk_get_sources_helm.md)	 - Get HelmRepository source statuses
 

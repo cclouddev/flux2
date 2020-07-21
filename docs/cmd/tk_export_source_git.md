@@ -14,10 +14,10 @@ tk export source git [name] [flags]
 
 ```
   # Export all GitRepository sources
-  export source git --all > sources.yaml
+  tk export source git --all > sources.yaml
 
   # Export a GitRepository source including the SSH key pair or basic auth credentials
-  export source git my-private-repo --with-credentials > source.yaml
+  tk export source git my-private-repo --with-credentials > source.yaml
 
 ```
 

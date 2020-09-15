@@ -17,26 +17,13 @@ limitations under the License.
 package main
 
 import (
-	"os"
-
 	"github.com/spf13/cobra"
 )
 
 var completionCmd = &cobra.Command{
 	Use:   "completion",
-	Short: "Generates bash completion scripts",
-	Example: `To load completion run
-
-. <(gotk completion)
-
-To configure your bash shell to load completions for each session add to your bashrc
-
-# ~/.bashrc or ~/.profile
-. <(gotk completion)
-`,
-	Run: func(cmd *cobra.Command, args []string) {
-		rootCmd.GenBashCompletion(os.Stdout)
-	},
+	Short: "Generates completion scripts for various shells",
+	Long:  "The completion sub-command generates completion scripts for various shells",
 }
 
 func init() {

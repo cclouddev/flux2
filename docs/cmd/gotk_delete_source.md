@@ -25,6 +25,7 @@ The delete source sub-commands delete sources.
 ### SEE ALSO
 
 * [gotk delete](gotk_delete.md)	 - Delete sources and resources
+* [gotk delete source bucket](gotk_delete_source_bucket.md)	 - Delete a Bucket source
 * [gotk delete source git](gotk_delete_source_git.md)	 - Delete a GitRepository source
 * [gotk delete source helm](gotk_delete_source_helm.md)	 - Delete a HelmRepository source
 

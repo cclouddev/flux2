@@ -31,9 +31,9 @@ import (
 
 var reconcileAlertProviderCmd = &cobra.Command{
 	Use:   "alert-provider [name]",
-	Short: "Reconcile a Provider source",
-	Long:  `The reconcile source command triggers a reconciliation of a Provider resource and waits for it to finish.`,
-	Example: `  # Trigger a reconciliation for an existing source
+	Short: "Reconcile a Provider",
+	Long:  `The reconcile alert-provider command triggers a reconciliation of a Provider resource and waits for it to finish.`,
+	Example: `  # Trigger a reconciliation for an existing provider
   gotk reconcile alert-provider slack
 `,
 	RunE: reconcileAlertProviderCmdRun,
@@ -45,7 +45,7 @@ func init() {
 
 func reconcileAlertProviderCmdRun(cmd *cobra.Command, args []string) error {
 	if len(args) < 1 {
-		return fmt.Errorf("source name is required")
+		return fmt.Errorf("provider name is required")
 	}
 	name := args[0]
 
@@ -62,7 +62,7 @@ func reconcileAlertProviderCmdRun(cmd *cobra.Command, args []string) error {
 		Name:      name,
 	}
 
-	logger.Actionf("annotating source %s in %s namespace", name, namespace)
+	logger.Actionf("annotating provider %s in %s namespace", name, namespace)
 	var alertProvider notificationv1.Provider
 	err = kubeClient.Get(ctx, namespacedName, &alertProvider)
 	if err != nil {
@@ -79,7 +79,7 @@ func reconcileAlertProviderCmdRun(cmd *cobra.Command, args []string) error {
 	if err := kubeClient.Update(ctx, &alertProvider); err != nil {
 		return err
 	}
-	logger.Successf("source annotated")
+	logger.Successf("provider annotated")
 
 	logger.Waitingf("waiting for reconciliation")
 	if err := wait.PollImmediate(pollInterval, timeout,

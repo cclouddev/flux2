@@ -24,7 +24,7 @@ import (
 
 func TestGenerate(t *testing.T) {
 	opts := MakeDefaultOptions()
-	output, err := Generate(opts)
+	_, output, err := Generate(opts)
 	if err != nil {
 		t.Fatal(err)
 	}

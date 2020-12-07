@@ -28,4 +28,5 @@ The get auto sub-commands print the statuses of the automation objects.
 * [flux get](flux_get.md)	 - Get sources and resources
 * [flux get auto image-policy](flux_get_auto_image-policy.md)	 - Get ImagePolicy statuses
 * [flux get auto image-repository](flux_get_auto_image-repository.md)	 - Get ImageRepository statuses
+* [flux get auto image-update](flux_get_auto_image-update.md)	 - Get ImageUpdateAutomation statuses
 

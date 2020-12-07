@@ -16,7 +16,7 @@ flux export auto image-policy [name] [flags]
   # Export all ImagePolicy resources
   flux export auto image-policy --all > image-policies.yaml
 
-  # Export a Provider
+  # Export a specific policy
   flux export auto image-policy alpine1x > alpine1x.yaml
 
 ```

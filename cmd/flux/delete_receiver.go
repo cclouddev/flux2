@@ -17,15 +17,8 @@ limitations under the License.
 package main
 
 import (
-	"context"
-	"fmt"
-
-	"github.com/manifoldco/promptui"
-	"github.com/spf13/cobra"
-	"k8s.io/apimachinery/pkg/types"
-
-	"github.com/fluxcd/flux2/internal/utils"
 	notificationv1 "github.com/fluxcd/notification-controller/api/v1beta1"
+	"github.com/spf13/cobra"
 )
 
 var deleteReceiverCmd = &cobra.Command{
@@ -35,54 +28,12 @@ var deleteReceiverCmd = &cobra.Command{
 	Example: `  # Delete an Receiver and the Kubernetes resources created by it
   flux delete receiver main
 `,
-	RunE: deleteReceiverCmdRun,
+	RunE: deleteCommand{
+		apiType: receiverType,
+		object:  universalAdapter{&notificationv1.Receiver{}},
+	}.run,
 }
 
 func init() {
 	deleteCmd.AddCommand(deleteReceiverCmd)
-}
-
-func deleteReceiverCmdRun(cmd *cobra.Command, args []string) error {
-	if len(args) < 1 {
-		return fmt.Errorf("receiver name is required")
-	}
-	name := args[0]
-
-	ctx, cancel := context.WithTimeout(context.Background(), rootArgs.timeout)
-	defer cancel()
-
-	kubeClient, err := utils.KubeClient(rootArgs.kubeconfig, rootArgs.kubecontext)
-	if err != nil {
-		return err
-	}
-
-	namespacedName := types.NamespacedName{
-		Namespace: rootArgs.namespace,
-		Name:      name,
-	}
-
-	var receiver notificationv1.Receiver
-	err = kubeClient.Get(ctx, namespacedName, &receiver)
-	if err != nil {
-		return err
-	}
-
-	if !deleteArgs.silent {
-		prompt := promptui.Prompt{
-			Label:     "Are you sure you want to delete this Receiver",
-			IsConfirm: true,
-		}
-		if _, err := prompt.Run(); err != nil {
-			return fmt.Errorf("aborting")
-		}
-	}
-
-	logger.Actionf("deleting receiver %s in %s namespace", name, rootArgs.namespace)
-	err = kubeClient.Delete(ctx, &receiver)
-	if err != nil {
-		return err
-	}
-	logger.Successf("receiver deleted")
-
-	return nil
 }

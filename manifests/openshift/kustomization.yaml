@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - scc.yaml
   - ../bases/source-controller
+  - ../bases/source-watcher
   - ../bases/kustomize-controller
   - ../bases/notification-controller
   - ../bases/helm-controller
@@ -17,6 +18,8 @@ transformers:
 images:
   - name: fluxcd/source-controller
     newName: ghcr.io/fluxcd/source-controller
+  - name: fluxcd/source-watcher
+    newName: ghcr.io/fluxcd/source-watcher
   - name: fluxcd/kustomize-controller
     newName: ghcr.io/fluxcd/kustomize-controller
   - name: fluxcd/helm-controller
